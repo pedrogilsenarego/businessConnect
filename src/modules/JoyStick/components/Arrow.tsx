@@ -9,9 +9,11 @@ import {
 interface Props {
   position: "up" | "down" | "left" | "right";
   setMove: (position: "up" | "down" | "left" | "right" | null) => void
+  page: "home" | "whoWeAre"
+  setPage: (page: "home" | "whoWeAre") => void
 }
 
-const Arrow = ({ position, setMove }: Props) => {
+const Arrow = ({ position, setMove, page, setPage }: Props) => {
   const [hovered, setHovered] = useState<boolean>(false);
   const ARROW_COLOR = "#ffffff66";
   const ARROW_HOVER_COLOR = "#ffffff";
@@ -23,16 +25,17 @@ const Arrow = ({ position, setMove }: Props) => {
         setMove("up");
         break
       case "down":
-        console.log(position);
+        setMove("down");
         break
       case "left":
-        console.log(position);
+        setMove("left");
+        setPage("whoWeAre")
         break
       case "right":
-        console.log(position);
+        setMove("right");
         break
       default:
-        return 90;
+        return null;
     }
   };
 

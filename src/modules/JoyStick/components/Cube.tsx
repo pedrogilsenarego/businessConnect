@@ -1,9 +1,9 @@
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 
 interface Props {
   move: "up" | "down" | "left" | "right" | null;
-  setMove: (move: "up" | "down" | "left" | "right" | null) => void
+  setMove: (move: "up" | "down" | "left" | "right" | null) => void;
 }
 
 const Cube = ({ move, setMove }: Props) => {
@@ -15,6 +15,7 @@ const Cube = ({ move, setMove }: Props) => {
     const [active, setActive] = useState(false);
     const [color, setColor] = useState(23);
     const [rotationDir, setRotationDir] = useState(0.004);
+    const [counter, setCounter] = useState(0)
     // Rotate mesh every frame, this is outside of React without overhead
     useFrame(() =>
       hovered
@@ -26,10 +27,37 @@ const Cube = ({ move, setMove }: Props) => {
           : null
     );
 
-    useFrame(
-      () => { if (move) { (mesh.current.rotation.y += rotationDir) } })
+    useFrame(() => {
+      if (move === "up" && counter < 80) {
+        mesh.current.rotation.x += -0.02;
+        setCounter(counter + 1)
+      }
+      if (move === "down" && counter < 90) {
+        mesh.current.rotation.x += 0.02;
+        setCounter(counter + 1)
+      }
+      if (move === "left" && counter < 90) {
+        mesh.current.rotation.y += 0.02;
+        setCounter(counter + 1)
+      }
+      if (move === "right" && counter < 90) {
+        mesh.current.rotation.y += -0.02;
+        setCounter(counter + 1)
+      }
+      else {
+        mesh.current.rotation.x += 0
+      }
+    });
 
 
+    useEffect(() => {
+      if (counter >= 80) {
+        setMove(null)
+        setCounter(0)
+      }
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [counter, move])
 
     const sleep = (time: any) => {
       return new Promise((resolve) => setTimeout(resolve, time));
@@ -57,7 +85,6 @@ const Cube = ({ move, setMove }: Props) => {
 
     return (
       <mesh
-
         ref={mesh}
         scale={1}
         onClick={(event) => {
@@ -67,12 +94,11 @@ const Cube = ({ move, setMove }: Props) => {
         onPointerOver={(event) => setHover(true)}
         onPointerOut={(event) => setHover(false)}
       >
-        <boxGeometry args={[4, 4, 4]} />
+        <boxGeometry args={[3.5, 3.5, 3.5]} />
         <meshStandardMaterial color={`rgb(139, 0, 0)`} />
       </mesh>
     );
   }
-
 
   return (
     <Canvas style={{ zIndex: 2 }}>
@@ -80,8 +106,7 @@ const Cube = ({ move, setMove }: Props) => {
       <pointLight position={[10, 10, 10]} />
       <Solid />
     </Canvas>
+  );
+};
 
-  )
-}
-
-export default Cube
+export default Cube;
