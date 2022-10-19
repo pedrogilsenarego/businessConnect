@@ -5,12 +5,13 @@ import {
   IoIosArrowForward,
   IoIosArrowDown,
 } from "react-icons/io";
+import { whichPage } from "../utils"
 
 interface Props {
   position: "up" | "down" | "left" | "right";
   setMove: (position: "up" | "down" | "left" | "right" | null) => void
-  page: "home" | "whoWeAre"
-  setPage: (page: "home" | "whoWeAre") => void
+  page: "home" | "whoWeAre" | undefined
+  setPage: (page: "home" | "whoWeAre" | undefined) => void
 }
 
 const Arrow = ({ position, setMove, page, setPage }: Props) => {
@@ -29,10 +30,11 @@ const Arrow = ({ position, setMove, page, setPage }: Props) => {
         break
       case "left":
         setMove("left");
-        setPage("whoWeAre")
+        setPage(whichPage({ page, position }))
         break
       case "right":
         setMove("right");
+        setPage(whichPage({ page, position }))
         break
       default:
         return null;

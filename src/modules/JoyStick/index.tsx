@@ -4,8 +4,8 @@ import Arrow from "./components/Arrow";
 import useJoyStick from "./useJoyStick";
 
 interface Props {
-  page: "home" | "whoWeAre"
-  setPage: (page: "home" | "whoWeAre") => void
+  page: "home" | "whoWeAre" | undefined
+  setPage: (page: "home" | "whoWeAre" | undefined) => void
 }
 
 const JoyStick = ({ page, setPage }: Props) => {

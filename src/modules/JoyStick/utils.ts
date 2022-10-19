@@ -1,15 +1,21 @@
 interface Props {
-  page: "home" | "whoWeAre";
-  move: "up" | "down" | "left" | "right" | null;
+  page: "home" | "whoWeAre" | undefined
+  position: "up" | "down" | "left" | "right" | null;
 }
 
-export const wichPage = ({ page, move }: Props) => {
+export const whichPage = ({ page, position }: Props) => {
   switch (page) {
     case "home":
-      if (move === "left") {
+      if (position === "left") {
         return "whoWeAre";
       }
-      break
+      break;
+    case "whoWeAre":
+      if (position === "right") {
+        return "home";
+      }
+      break;
+    case undefined: return "home"
     default:
       return "home";
   }
